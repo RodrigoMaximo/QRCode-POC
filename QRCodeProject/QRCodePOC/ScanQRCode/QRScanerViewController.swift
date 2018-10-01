@@ -28,12 +28,12 @@ class QRScanerViewController: UIViewController {
         highlightDetectedQRCode()
     }
 
+    @available(iOS 10.0, *)
     private func getPossibledeviceTypes() -> [AVCaptureDevice.DeviceType] {
         var deviceTypes: [AVCaptureDevice.DeviceType] = []
-        if #available(iOS 10.0, *) {
-            deviceTypes.append(.builtInWideAngleCamera)
-            deviceTypes.append(.builtInTelephotoCamera)
-        }
+        deviceTypes.append(.builtInWideAngleCamera)
+        deviceTypes.append(.builtInTelephotoCamera)
+
         if #available(iOS 10.2, *) {
             deviceTypes.append(.builtInDualCamera)
         }
@@ -44,14 +44,22 @@ class QRScanerViewController: UIViewController {
     }
 
     private func setupScan() {
-        // Get the back-facing camera for capturing videos. Find all available capture devices matching a specific device type.
-        let deviceTypes: [AVCaptureDevice.DeviceType] = getPossibledeviceTypes()
-        print(deviceTypes)
-        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: AVMediaType.video, position: .back)
+        var captureDevice: AVCaptureDevice!
+        if #available(iOS 10.0, *) {
+            // Get the back-facing camera for capturing videos. Find all available capture devices matching a specific device type.
+            let deviceTypes: [AVCaptureDevice.DeviceType] = getPossibledeviceTypes()
+            print(deviceTypes)
+            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: AVMediaType.video, position: .back)
 
-        guard let captureDevice = deviceDiscoverySession.devices.first else {
-            print("Failed to get the camera device")
-            return
+            guard let firstCaptureDevice = deviceDiscoverySession.devices.first else {
+                print("Failed to get the camera device")
+                return
+            }
+            captureDevice = firstCaptureDevice
+        } else {
+            // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video
+            // as the media type parameter.
+            captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
         }
 
         do {

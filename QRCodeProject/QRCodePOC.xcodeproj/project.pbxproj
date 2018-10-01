@@ -56,7 +56,7 @@
 		F2AE5F7A216250B800D334EC /* QRCodePOC */ = {
 			isa = PBXGroup;
 			children = (
-				F2AE5F8F2162579400D334EC /* Scan QR Code */,
+				F2AE5F8F2162579400D334EC /* ScanQRCode */,
 				F2AE5F7B216250B800D334EC /* AppDelegate.swift */,
 				F2AE5F7F216250B800D334EC /* Main.storyboard */,
 				F2AE5F82216250B900D334EC /* Assets.xcassets */,
@@ -66,13 +66,13 @@
 			path = QRCodePOC;
 			sourceTree = "<group>";
 		};
-		F2AE5F8F2162579400D334EC /* Scan QR Code */ = {
+		F2AE5F8F2162579400D334EC /* ScanQRCode */ = {
 			isa = PBXGroup;
 			children = (
 				F2AE5F7D216250B800D334EC /* QRCodeViewController.swift */,
 				F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */,
 			);
-			path = "Scan QR Code";
+			path = ScanQRCode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +297,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K3MJ38Y24S;
 				INFOPLIST_FILE = QRCodePOC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,6 +316,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K3MJ38Y24S;
 				INFOPLIST_FILE = QRCodePOC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
