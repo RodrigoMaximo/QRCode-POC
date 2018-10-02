@@ -1,0 +1,38 @@
+{
+    "version": "v1.0",
+    "albums": [
+               {
+               "id": 1,
+               "name": "Brasileirão 2018",
+               "sections": [
+                            {
+                            "name": "Especiais",
+                            "stickers": [
+                                         {
+                                         "displayName": "1A",
+                                         "isSpecial": true,
+                                         "albumNumber": 0
+                                         },
+                                         {
+                                         "displayName": "1B",
+                                         "isSpecial": true,
+                                         "albumNumber": 1
+                                         }
+                                         ]
+                            },
+                            {
+                            "name": "Especiais - Série A",
+                            "stickers": [
+                                         {
+                                         "displayName": "2A",
+                                         "isSpecial": true,
+                                         "albumNumber": 2
+                                         },
+                                         {
+                                         "displayName": "2B",
+                                         "isSpecial": true,
+                                         "albumNumber": 3
+                                         }
+                                         ]
+                            },
+                            {

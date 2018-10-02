@@ -5,9 +5,9 @@ class QRScanerViewController: UIViewController {
 
     @IBOutlet weak var messageLabel: UILabel!
     
-    var captureSession = AVCaptureSession()
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView: UIView?
+    private var captureSession = AVCaptureSession()
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var qrCodeFrameView: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,9 +15,8 @@ class QRScanerViewController: UIViewController {
     }
 
     private func setup() {
-        setupScan()
+        setupScan(detectedQRshouldHighlight: true)
         performScan()
-        highlightDetectedQRCode()
     }
 
     @available(iOS 10.0, *)
@@ -35,7 +34,9 @@ class QRScanerViewController: UIViewController {
         return deviceTypes
     }
 
-    private func setupScan() {
+    /// Setup AVCaptureSession in order to be able to detect a QR Code.
+    /// - Parameter detectedQRshouldHighlight: Determines if the QR Code should be highlighted when recognized.
+    private func setupScan(detectedQRshouldHighlight: Bool) {
         var captureDevice: AVCaptureDevice!
         if #available(iOS 10.0, *) {
             // Get the back-facing camera for capturing videos. Find all available capture devices matching a specific device type.
@@ -73,26 +74,33 @@ class QRScanerViewController: UIViewController {
             print(error)
             return
         }
+
+        if detectedQRshouldHighlight {
+            setupHighlightInDetectedQRCode()
+        }
     }
 
+    /// Starts to get video from camera, always trying to recognize a QR Code image.
     private func performScan() {
         // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        guard let unwrappedVideoPreviewLayer = videoPreviewLayer else {
+        guard let videoPreviewLayer = self.videoPreviewLayer else {
             fatalError("VideoPreviewLayer is not defined")
         }
-        unwrappedVideoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        unwrappedVideoPreviewLayer.frame = view.layer.bounds
-        view.layer.addSublayer(unwrappedVideoPreviewLayer)
+        videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer.frame = view.layer.bounds
+        view.layer.addSublayer(videoPreviewLayer)
 
         // Start video capture.
         captureSession.startRunning()
 
         // Move the message label and top bar to the front
         view.bringSubviewToFront(messageLabel)
+        messageLabel.isHidden = true
     }
 
-    private func highlightDetectedQRCode() {
+    /// Setup a view to highlight the detected QRCode.
+    private func setupHighlightInDetectedQRCode() {
         // Initialize QR Code Frame to highlight the QR code
         qrCodeFrameView = UIView()
 
@@ -109,20 +117,20 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         // Check if the metadataObjects array is not nil and it contains at least one object.
         if metadataObjects.count == 0 {
-            renderFailInScan()
+            renderFailScanning()
             return
         }
 
         // Get the metadata object.
         guard let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject else {
-            renderFailInScan()
+            renderFailScanning()
             return
         }
 
         // If the found metadata is equal to the QR code metadata
         if metadataObj.type == AVMetadataObject.ObjectType.qr {
             guard let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj) else {
-                renderFailInScan()
+                renderFailScanning()
                 return
             }
 
@@ -131,11 +139,15 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
 
             // detected text
             if metadataObj.stringValue != nil {
+                messageLabel.isHidden = false
                 messageLabel.text = metadataObj.stringValue
             }
         }
     }
-    private func renderFailInScan() {
+
+    /// Render view information when fail in recognize a QR Code image.
+    private func renderFailScanning() {
+        messageLabel.isHidden = true
         qrCodeFrameView?.frame = CGRect.zero
         messageLabel.text = "No QR code is detected"
     }

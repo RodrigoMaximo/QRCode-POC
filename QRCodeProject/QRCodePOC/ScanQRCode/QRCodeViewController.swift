@@ -7,23 +7,24 @@ class QRCodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        qrCodeImage.image = generateQRCode(from: "https://www.appcoda.com")
+        qrCodeImage.image = generateQRCode(from: "| Anything to Test ~ ")
     }
     
     @IBAction func scanAction(_ sender: UIButton) {
         performSegue(withIdentifier: "scanSegue", sender: self)
     }
 
+    /// Generates a QR Code from a string.
+    /// - Parameter string: Input String, responsible for generating an UIImage QR Code.
+    /// - Returns: A QR Code image.
     private func generateQRCode(from string: String) -> UIImage? {
-//        let data = string.data(using: String.Encoding.ascii)
-        let data = string.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
+        let data = string.data(using: String.Encoding.ascii, allowLossyConversion: false)
 
         guard let filter = CIFilter(name: "CIQRCodeGenerator") else {
             return nil
         }
 
         filter.setValue(data, forKey: "inputMessage")
-        filter.setValue("Q", forKey: "inputCorrectionLevel")
 
         guard let ciImage = filter.outputImage else {
             return nil

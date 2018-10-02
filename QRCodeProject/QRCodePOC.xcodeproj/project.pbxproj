@@ -13,6 +13,8 @@
 		F2AE5F83216250B900D334EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2AE5F82216250B900D334EC /* Assets.xcassets */; };
 		F2AE5F86216250B900D334EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2AE5F84216250B900D334EC /* LaunchScreen.storyboard */; };
 		F2AE5F8E2162558600D334EC /* QRScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */; };
+		F2D81B472163D984004E6331 /* Data.json in Resources */ = {isa = PBXBuildFile; fileRef = F2D81B452163D984004E6331 /* Data.json */; };
+		F2D81B4A2163DB85004E6331 /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B492163DB85004E6331 /* Information.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		F2AE5F85216250B900D334EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2AE5F87216250BA00D334EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanerViewController.swift; sourceTree = "<group>"; };
+		F2D81B462163D984004E6331 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/Data.json; sourceTree = "<group>"; };
+		F2D81B492163DB85004E6331 /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 		F2AE5F7A216250B800D334EC /* QRCodePOC */ = {
 			isa = PBXGroup;
 			children = (
+				F2D81B482163DAE2004E6331 /* QRInformation */,
 				F2AE5F8F2162579400D334EC /* ScanQRCode */,
 				F2AE5F7B216250B800D334EC /* AppDelegate.swift */,
 				F2AE5F7F216250B800D334EC /* Main.storyboard */,
@@ -73,6 +78,15 @@
 				F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */,
 			);
 			path = ScanQRCode;
+			sourceTree = "<group>";
+		};
+		F2D81B482163DAE2004E6331 /* QRInformation */ = {
+			isa = PBXGroup;
+			children = (
+				F2D81B452163D984004E6331 /* Data.json */,
+				F2D81B492163DB85004E6331 /* Information.swift */,
+			);
+			path = QRInformation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +150,7 @@
 				F2AE5F86216250B900D334EC /* LaunchScreen.storyboard in Resources */,
 				F2AE5F83216250B900D334EC /* Assets.xcassets in Resources */,
 				F2AE5F81216250B800D334EC /* Main.storyboard in Resources */,
+				F2D81B472163D984004E6331 /* Data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +163,7 @@
 			files = (
 				F2AE5F7E216250B800D334EC /* QRCodeViewController.swift in Sources */,
 				F2AE5F7C216250B800D334EC /* AppDelegate.swift in Sources */,
+				F2D81B4A2163DB85004E6331 /* Information.swift in Sources */,
 				F2AE5F8E2162558600D334EC /* QRScanerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,6 +185,14 @@
 				F2AE5F85216250B900D334EC /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F2D81B452163D984004E6331 /* Data.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2D81B462163D984004E6331 /* Base */,
+			);
+			name = Data.json;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
