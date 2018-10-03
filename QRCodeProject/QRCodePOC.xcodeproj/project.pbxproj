@@ -14,7 +14,7 @@
 		F2AE5F86216250B900D334EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2AE5F84216250B900D334EC /* LaunchScreen.storyboard */; };
 		F2AE5F8E2162558600D334EC /* QRScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */; };
 		F2D81B472163D984004E6331 /* Data.json in Resources */ = {isa = PBXBuildFile; fileRef = F2D81B452163D984004E6331 /* Data.json */; };
-		F2D81B4A2163DB85004E6331 /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B492163DB85004E6331 /* Information.swift */; };
+		F2D81B4A2163DB85004E6331 /* Checkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B492163DB85004E6331 /* Checkout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		F2AE5F87216250BA00D334EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanerViewController.swift; sourceTree = "<group>"; };
 		F2D81B462163D984004E6331 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/Data.json; sourceTree = "<group>"; };
-		F2D81B492163DB85004E6331 /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
+		F2D81B492163DB85004E6331 /* Checkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				F2D81B452163D984004E6331 /* Data.json */,
-				F2D81B492163DB85004E6331 /* Information.swift */,
+				F2D81B492163DB85004E6331 /* Checkout.swift */,
 			);
 			path = QRInformation;
 			sourceTree = "<group>";
@@ -163,7 +163,7 @@
 			files = (
 				F2AE5F7E216250B800D334EC /* QRCodeViewController.swift in Sources */,
 				F2AE5F7C216250B800D334EC /* AppDelegate.swift in Sources */,
-				F2D81B4A2163DB85004E6331 /* Information.swift in Sources */,
+				F2D81B4A2163DB85004E6331 /* Checkout.swift in Sources */,
 				F2AE5F8E2162558600D334EC /* QRScanerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

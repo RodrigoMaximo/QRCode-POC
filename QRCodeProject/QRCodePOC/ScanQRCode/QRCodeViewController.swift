@@ -8,6 +8,33 @@ class QRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         qrCodeImage.image = generateQRCode(from: "| Anything to Test ~ ")
+
+        let jsonDecoder = JSONDecoder()
+        let jsonEncoder = JSONEncoder()
+
+        if let jsonData = loadDataFromJSON() {
+            if let checkout = try? jsonDecoder.decode(Checkout.self, from: jsonData) {
+                print(checkout)
+            }
+        }
+
+        let checkoutObject = Checkout(userName: "Rodrigo", age: 22, value: 40.0)
+        jsonEncoder.outputFormatting = .prettyPrinted
+        guard let encodedData = try? jsonEncoder.encode(checkoutObject) else { return }
+        guard let jsonString = String(data: encodedData, encoding: .utf8) else { return }
+        print(jsonString)
+    }
+
+    /// Loads data from a JSON file.
+    /// - Returns: Read Data.
+    private func loadDataFromJSON() -> Data? {
+        let fileName = "Data"
+        let fileExtension = "json"
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension) else {
+            return nil
+        }
+        let data = try? Data(contentsOf: url)
+        return data
     }
     
     @IBAction func scanAction(_ sender: UIButton) {
