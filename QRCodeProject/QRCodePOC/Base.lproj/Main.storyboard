@@ -84,7 +84,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zed-YW-QQQ">
-                                <rect key="frame" x="75" y="424" width="225" height="70"/>
+                                <rect key="frame" x="75" y="180" width="225" height="70"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EuH-wV-FNd">
                                         <rect key="frame" x="0.0" y="0.0" width="225" height="30"/>
@@ -106,7 +106,7 @@
                         <constraints>
                             <constraint firstItem="zed-YW-QQQ" firstAttribute="leading" secondItem="QLb-Dc-cWW" secondAttribute="leading" constant="75" id="2sq-pW-FHE"/>
                             <constraint firstItem="QLb-Dc-cWW" firstAttribute="trailing" secondItem="zed-YW-QQQ" secondAttribute="trailing" constant="75" id="Dwn-uJ-580"/>
-                            <constraint firstItem="zed-YW-QQQ" firstAttribute="centerY" secondItem="QLb-Dc-cWW" secondAttribute="centerY" id="ewG-ej-avU"/>
+                            <constraint firstItem="zed-YW-QQQ" firstAttribute="top" secondItem="QLb-Dc-cWW" secondAttribute="top" constant="40" id="z7z-c0-47S"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QLb-Dc-cWW"/>
                     </view>
