@@ -1,10 +1,15 @@
 import AVFoundation
 import UIKit
 
+protocol QRScannerViewControllerDelegate: class {
+    func checkoutDidDetected(checkout: Checkout)
+}
+
 class QRScanerViewController: UIViewController {
 
     @IBOutlet weak var messageLabel: UILabel!
-    
+
+    weak var delegate: QRScannerViewControllerDelegate?
     private var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     private var qrCodeFrameView: UIView?
@@ -41,7 +46,6 @@ class QRScanerViewController: UIViewController {
         if #available(iOS 10.0, *) {
             // Get the back-facing camera for capturing videos. Find all available capture devices matching a specific device type.
             let deviceTypes: [AVCaptureDevice.DeviceType] = getPossibledeviceTypes()
-            print(deviceTypes)
             let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: AVMediaType.video, position: .back)
 
             guard let firstCaptureDevice = deviceDiscoverySession.devices.first else {
@@ -111,6 +115,15 @@ class QRScanerViewController: UIViewController {
             view.bringSubviewToFront(qrCodeFrameView)
         }
     }
+
+    private func convertJSON<T: Codable>(to objectType: T.Type, jsonData: Data?) -> T? {
+        guard let jsonData = jsonData else {
+            return nil
+        }
+        let jsonDecoder = JSONDecoder()
+        let object = try? jsonDecoder.decode(objectType.self, from: jsonData)
+        return object
+    }
 }
 
 extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
@@ -137,17 +150,25 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
             // highlight detected QR Code
             qrCodeFrameView?.frame = barCodeObject.bounds
 
+            messageLabel.isHidden = true
+
             // detected text
-            if metadataObj.stringValue != nil {
-                messageLabel.isHidden = false
-                messageLabel.text = metadataObj.stringValue
+            guard let metadataObjStringValue = metadataObj.stringValue else {
+                return
             }
+            let jsonData = metadataObjStringValue.data(using: .utf8)
+            guard let detectedCheckout = convertJSON(to: Checkout.self, jsonData: jsonData) else {
+                renderFailScanning()
+                return
+            }
+            delegate?.checkoutDidDetected(checkout: detectedCheckout)
+            navigationController?.popViewController(animated: true)
         }
     }
 
     /// Render view information when fail in recognize a QR Code image.
     private func renderFailScanning() {
-        messageLabel.isHidden = true
+        messageLabel.isHidden = false
         qrCodeFrameView?.frame = CGRect.zero
         messageLabel.text = "No QR code is detected"
     }

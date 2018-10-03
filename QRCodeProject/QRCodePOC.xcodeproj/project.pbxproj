@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		F2AE5F7C216250B800D334EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AE5F7B216250B800D334EC /* AppDelegate.swift */; };
-		F2AE5F7E216250B800D334EC /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AE5F7D216250B800D334EC /* QRCodeViewController.swift */; };
 		F2AE5F81216250B800D334EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2AE5F7F216250B800D334EC /* Main.storyboard */; };
 		F2AE5F83216250B900D334EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2AE5F82216250B900D334EC /* Assets.xcassets */; };
 		F2AE5F86216250B900D334EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2AE5F84216250B900D334EC /* LaunchScreen.storyboard */; };
 		F2AE5F8E2162558600D334EC /* QRScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */; };
 		F2D81B472163D984004E6331 /* Data.json in Resources */ = {isa = PBXBuildFile; fileRef = F2D81B452163D984004E6331 /* Data.json */; };
 		F2D81B4A2163DB85004E6331 /* Checkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B492163DB85004E6331 /* Checkout.swift */; };
+		F2D81B4C2164E1A0004E6331 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B4B2164E1A0004E6331 /* InitialViewController.swift */; };
+		F2D81B4E2164E4DD004E6331 /* SellerCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B4D2164E4DD004E6331 /* SellerCheckoutViewController.swift */; };
+		F2D81B502164E5DB004E6331 /* CustomerCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D81B4F2164E5DB004E6331 /* CustomerCheckoutViewController.swift */; };
+		F2D81B532164E8B2004E6331 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AE5F7D216250B800D334EC /* QRCodeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanerViewController.swift; sourceTree = "<group>"; };
 		F2D81B462163D984004E6331 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/Data.json; sourceTree = "<group>"; };
 		F2D81B492163DB85004E6331 /* Checkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkout.swift; sourceTree = "<group>"; };
+		F2D81B4B2164E1A0004E6331 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		F2D81B4D2164E4DD004E6331 /* SellerCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerCheckoutViewController.swift; sourceTree = "<group>"; };
+		F2D81B4F2164E5DB004E6331 /* CustomerCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCheckoutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,24 +66,17 @@
 		F2AE5F7A216250B800D334EC /* QRCodePOC */ = {
 			isa = PBXGroup;
 			children = (
+				F2D81B512164E82C004E6331 /* Customer */,
+				F2D81B522164E831004E6331 /* Seller */,
 				F2D81B482163DAE2004E6331 /* QRInformation */,
-				F2AE5F8F2162579400D334EC /* ScanQRCode */,
 				F2AE5F7B216250B800D334EC /* AppDelegate.swift */,
+				F2D81B4B2164E1A0004E6331 /* InitialViewController.swift */,
 				F2AE5F7F216250B800D334EC /* Main.storyboard */,
 				F2AE5F82216250B900D334EC /* Assets.xcassets */,
 				F2AE5F84216250B900D334EC /* LaunchScreen.storyboard */,
 				F2AE5F87216250BA00D334EC /* Info.plist */,
 			);
 			path = QRCodePOC;
-			sourceTree = "<group>";
-		};
-		F2AE5F8F2162579400D334EC /* ScanQRCode */ = {
-			isa = PBXGroup;
-			children = (
-				F2AE5F7D216250B800D334EC /* QRCodeViewController.swift */,
-				F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */,
-			);
-			path = ScanQRCode;
 			sourceTree = "<group>";
 		};
 		F2D81B482163DAE2004E6331 /* QRInformation */ = {
@@ -87,6 +86,24 @@
 				F2D81B492163DB85004E6331 /* Checkout.swift */,
 			);
 			path = QRInformation;
+			sourceTree = "<group>";
+		};
+		F2D81B512164E82C004E6331 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				F2AE5F8D2162558600D334EC /* QRScanerViewController.swift */,
+				F2D81B4F2164E5DB004E6331 /* CustomerCheckoutViewController.swift */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		F2D81B522164E831004E6331 /* Seller */ = {
+			isa = PBXGroup;
+			children = (
+				F2AE5F7D216250B800D334EC /* QRCodeViewController.swift */,
+				F2D81B4D2164E4DD004E6331 /* SellerCheckoutViewController.swift */,
+			);
+			path = Seller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,10 +178,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2AE5F7E216250B800D334EC /* QRCodeViewController.swift in Sources */,
+				F2D81B532164E8B2004E6331 /* QRCodeViewController.swift in Sources */,
+				F2D81B4C2164E1A0004E6331 /* InitialViewController.swift in Sources */,
+				F2D81B4E2164E4DD004E6331 /* SellerCheckoutViewController.swift in Sources */,
 				F2AE5F7C216250B800D334EC /* AppDelegate.swift in Sources */,
 				F2D81B4A2163DB85004E6331 /* Checkout.swift in Sources */,
 				F2AE5F8E2162558600D334EC /* QRScanerViewController.swift in Sources */,
+				F2D81B502164E5DB004E6331 /* CustomerCheckoutViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
