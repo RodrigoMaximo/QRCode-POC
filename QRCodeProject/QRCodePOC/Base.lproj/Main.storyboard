@@ -90,11 +90,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="225" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTJ-q3-ZDM">
                                         <rect key="frame" x="0.0" y="40" width="225" height="30"/>
-                                        <state key="normal" title="Button"/>
+                                        <state key="normal" title="Generate QR Code"/>
                                         <connections>
                                             <action selector="generateQRAction:" destination="VmC-0h-gs6" eventType="touchUpInside" id="JGz-Hv-l5q"/>
                                         </connections>
