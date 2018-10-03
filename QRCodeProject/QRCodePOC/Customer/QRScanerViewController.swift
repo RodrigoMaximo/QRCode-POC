@@ -10,8 +10,11 @@ class QRScanerViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
 
     weak var delegate: QRScannerViewControllerDelegate?
+
     private var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+
+    /// View to highlight the detected QR Code image.
     private var qrCodeFrameView: UIView?
 
     override func viewDidLoad() {
@@ -24,39 +27,12 @@ class QRScanerViewController: UIViewController {
         performScan()
     }
 
-    @available(iOS 10.0, *)
-    private func getPossibledeviceTypes() -> [AVCaptureDevice.DeviceType] {
-        var deviceTypes: [AVCaptureDevice.DeviceType] = []
-        deviceTypes.append(.builtInWideAngleCamera)
-        deviceTypes.append(.builtInTelephotoCamera)
-
-        if #available(iOS 10.2, *) {
-            deviceTypes.append(.builtInDualCamera)
-        }
-        if #available(iOS 11.1, *) {
-            deviceTypes.append(.builtInTrueDepthCamera)
-        }
-        return deviceTypes
-    }
-
     /// Setup AVCaptureSession in order to be able to detect a QR Code.
     /// - Parameter detectedQRshouldHighlight: Determines if the QR Code should be highlighted when recognized.
     private func setupScan(detectedQRshouldHighlight: Bool) {
-        var captureDevice: AVCaptureDevice!
-        if #available(iOS 10.0, *) {
-            // Get the back-facing camera for capturing videos. Find all available capture devices matching a specific device type.
-            let deviceTypes: [AVCaptureDevice.DeviceType] = getPossibledeviceTypes()
-            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: AVMediaType.video, position: .back)
-
-            guard let firstCaptureDevice = deviceDiscoverySession.devices.first else {
-                print("Failed to get the camera device")
-                return
-            }
-            captureDevice = firstCaptureDevice
-        } else {
-            // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video
-            // as the media type parameter.
-            captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
+        guard let captureDevice = getCaptureDevice() else {
+            print("Failed to get the camera device")
+            return
         }
 
         do {
@@ -103,6 +79,41 @@ class QRScanerViewController: UIViewController {
         messageLabel.isHidden = true
     }
 
+    /// Returns the capture device
+    private func getCaptureDevice() -> AVCaptureDevice? {
+        var captureDevice: AVCaptureDevice?
+        if #available(iOS 10.0, *) {
+            // Get the back-facing camera for capturing videos. Find all available capture devices matching a specific device type.
+            let deviceTypes: [AVCaptureDevice.DeviceType] = getPossibledeviceTypes()
+            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: AVMediaType.video, position: .back)
+
+            guard let firstCaptureDevice = deviceDiscoverySession.devices.first else {
+                return nil
+            }
+            captureDevice = firstCaptureDevice
+        } else {
+            // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video
+            // as the media type parameter.
+            captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
+        }
+        return captureDevice
+    }
+
+    @available(iOS 10.0, *)
+    private func getPossibledeviceTypes() -> [AVCaptureDevice.DeviceType] {
+        var deviceTypes: [AVCaptureDevice.DeviceType] = []
+        deviceTypes.append(.builtInWideAngleCamera)
+        deviceTypes.append(.builtInTelephotoCamera)
+
+        if #available(iOS 10.2, *) {
+            deviceTypes.append(.builtInDualCamera)
+        }
+        if #available(iOS 11.1, *) {
+            deviceTypes.append(.builtInTrueDepthCamera)
+        }
+        return deviceTypes
+    }
+
     /// Setup a view to highlight the detected QRCode.
     private func setupHighlightInDetectedQRCode() {
         // Initialize QR Code Frame to highlight the QR code
@@ -116,7 +127,12 @@ class QRScanerViewController: UIViewController {
         }
     }
 
-    private func convertJSON<T: Codable>(to objectType: T.Type, jsonData: Data?) -> T? {
+    /// Deserialize a JSON data to a Codable object.
+    /// - Parameters:
+    ///   - objectType: Object that implements Codable protocol, in which the JSON data will be deserialized.
+    ///   - jsonData: JSON data that will be deserialized.
+    /// - Returns: An optional object, if deserialization was accomplished.
+    private func deserializeJSON<T: Codable>(to objectType: T.Type, jsonData: Data?) -> T? {
         guard let jsonData = jsonData else {
             return nil
         }
@@ -147,23 +163,26 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
                 return
             }
 
-            // highlight detected QR Code
+            // highlight detected QR Code and hide no detection label
             qrCodeFrameView?.frame = barCodeObject.bounds
-
             messageLabel.isHidden = true
 
-            // detected text
-            guard let metadataObjStringValue = metadataObj.stringValue else {
-                return
-            }
-            let jsonData = metadataObjStringValue.data(using: .utf8)
-            guard let detectedCheckout = convertJSON(to: Checkout.self, jsonData: jsonData) else {
+            guard let detectedCheckout = checkoutFromQRString(metadataObjStringValue: metadataObj.stringValue) else {
                 renderFailScanning()
                 return
             }
             delegate?.checkoutDidDetected(checkout: detectedCheckout)
             navigationController?.popViewController(animated: true)
         }
+    }
+
+    private func checkoutFromQRString(metadataObjStringValue: String?) -> Checkout? {
+        guard let metadataObjStringValue = metadataObjStringValue else {
+            return nil
+        }
+        let jsonData = metadataObjStringValue.data(using: .utf8)
+        let detectedCheckout = deserializeJSON(to: Checkout.self, jsonData: jsonData)
+        return detectedCheckout
     }
 
     /// Render view information when fail in recognize a QR Code image.

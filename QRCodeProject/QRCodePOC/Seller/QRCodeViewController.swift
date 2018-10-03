@@ -9,7 +9,7 @@ class QRCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let checkoutJSON = convertToJSON(object: qrCodeCheckout) {
+        if let checkoutJSON = serializeToJSON(object: qrCodeCheckout) {
             qrCodeImage.image = generateQRCode(from: checkoutJSON)
         }
     }
@@ -18,13 +18,15 @@ class QRCodeViewController: UIViewController {
         performSegue(withIdentifier: "scanSegue", sender: self)
     }
 
-    private func convertToJSON<T: Codable>(object: T) -> String? {
+    /// Serialize a Codable object to a JSON. This JSON is places in a String.
+    /// - Parameter object: Object that will be serialized.
+    /// - Returns: Serialized JSON in a String format.
+    private func serializeToJSON<T: Codable>(object: T) -> String? {
         let jsonEncoder = JSONEncoder()
 
         jsonEncoder.outputFormatting = .prettyPrinted
         guard let encodedData = try? jsonEncoder.encode(object) else { return nil }
         let objectJSON = String(data: encodedData, encoding: .utf8)
-        print(objectJSON!)
         return objectJSON
     }
 
