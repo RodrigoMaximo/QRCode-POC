@@ -92,8 +92,7 @@ class QRScanerViewController: UIViewController {
             }
             captureDevice = firstCaptureDevice
         } else {
-            // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video
-            // as the media type parameter.
+            // capture device to ios 9.0
             captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
         }
         return captureDevice
@@ -102,15 +101,15 @@ class QRScanerViewController: UIViewController {
     @available(iOS 10.0, *)
     private func getPossibledeviceTypes() -> [AVCaptureDevice.DeviceType] {
         var deviceTypes: [AVCaptureDevice.DeviceType] = []
-        deviceTypes.append(.builtInWideAngleCamera)
-        deviceTypes.append(.builtInTelephotoCamera)
-
-        if #available(iOS 10.2, *) {
-            deviceTypes.append(.builtInDualCamera)
-        }
         if #available(iOS 11.1, *) {
             deviceTypes.append(.builtInTrueDepthCamera)
         }
+        if #available(iOS 10.2, *) {
+            deviceTypes.append(.builtInDualCamera)
+        }
+        deviceTypes.append(.builtInTelephotoCamera)
+        deviceTypes.append(.builtInWideAngleCamera)
+
         return deviceTypes
     }
 
@@ -167,7 +166,7 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView?.frame = barCodeObject.bounds
             messageLabel.isHidden = true
 
-            guard let detectedCheckout = checkoutFromQRString(metadataObjStringValue: metadataObj.stringValue) else {
+            guard let detectedCheckout: Checkout = checkoutFromQRString(metadataObjStringValue: metadataObj.stringValue) else {
                 renderFailScanning()
                 return
             }
@@ -176,12 +175,12 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
         }
     }
 
-    private func checkoutFromQRString(metadataObjStringValue: String?) -> Checkout? {
+    private func checkoutFromQRString<T: Codable>(metadataObjStringValue: String?) -> T? {
         guard let metadataObjStringValue = metadataObjStringValue else {
             return nil
         }
         let jsonData = metadataObjStringValue.data(using: .utf8)
-        let detectedCheckout = deserializeJSON(to: Checkout.self, jsonData: jsonData)
+        let detectedCheckout = deserializeJSON(to: T.self, jsonData: jsonData)
         return detectedCheckout
     }
 
