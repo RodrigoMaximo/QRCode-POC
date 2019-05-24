@@ -28,11 +28,17 @@ class CustomerCheckoutViewController: UIViewController {
     @IBAction func scanAction(_ sender: UIButton) {
         performSegue(withIdentifier: "scanSegue", sender: self)
     }
+    
+    @IBAction func didTouchShareButton(_ sender: UIButton) {
+        let text = checkoutValueLabel.text ?? "Nenhum qr code scaneado!" as Any
+        let activityViewController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
 }
 
 extension CustomerCheckoutViewController: QRScannerViewControllerDelegate {
-    func checkoutDidDetected(checkout: Checkout) {
-        let formattedPrice = String(format: "%.2f", checkout.value)
-        checkoutValueLabel.text = "$\(formattedPrice)"
+    func checkoutDidDetected(string: String) {
+        checkoutValueLabel.text = string
     }
 }

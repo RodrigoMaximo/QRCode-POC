@@ -4,30 +4,33 @@ class QRCodeViewController: UIViewController {
 
     @IBOutlet weak var qrCodeImage: UIImageView!
 
-    var qrCodeCheckout: Checkout?
+    var qrCodeText: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let checkoutJSON = serializeToJSON(object: qrCodeCheckout) {
-            qrCodeImage.image = generateQRCode(from: checkoutJSON)
+        if let qrCodeText = self.qrCodeText {
+            qrCodeImage.image = generateQRCode(from: qrCodeText)
         }
     }
-
+    
     @IBAction func scanAction(_ sender: UIButton) {
         performSegue(withIdentifier: "scanSegue", sender: self)
     }
-
-    /// Serialize a Codable object to a JSON. This JSON is places in a String.
-    /// - Parameter object: Object that will be serialized.
-    /// - Returns: Serialized JSON in a String format.
-    private func serializeToJSON<T: Codable>(object: T) -> String? {
-        let jsonEncoder = JSONEncoder()
-
-        jsonEncoder.outputFormatting = .prettyPrinted
-        guard let encodedData = try? jsonEncoder.encode(object) else { return nil }
-        let objectJSON = String(data: encodedData, encoding: .utf8)
-        return objectJSON
+    
+    @IBAction func didTouchShare(_ sender: UIButton) {
+        guard let image = takeScreenshot(in: qrCodeImage) else { return }
+        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    private func takeScreenshot(in view: UIView) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0)
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
+        let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return snapshotImage
     }
 
     /// Generates a QR Code from a string.

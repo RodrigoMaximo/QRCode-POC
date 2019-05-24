@@ -2,7 +2,7 @@ import AVFoundation
 import UIKit
 
 protocol QRScannerViewControllerDelegate: class {
-    func checkoutDidDetected(checkout: Checkout)
+    func checkoutDidDetected(string: String)
 }
 
 class QRScanerViewController: UIViewController {
@@ -167,11 +167,11 @@ extension QRScanerViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView?.frame = barCodeObject.bounds
             messageLabel.isHidden = true
 
-            guard let detectedCheckout = checkoutFromQRString(metadataObjStringValue: metadataObj.stringValue) else {
+            guard let detectedString = metadataObj.stringValue else {
                 renderFailScanning()
                 return
             }
-            delegate?.checkoutDidDetected(checkout: detectedCheckout)
+            delegate?.checkoutDidDetected(string: detectedString)
             navigationController?.popViewController(animated: true)
         }
     }
